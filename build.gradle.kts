@@ -29,12 +29,16 @@ extra["springModulithVersion"] = "1.3.1"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
-
+    implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
-    implementation("org.flywaydb:flyway-core:9.22.3")
-
     implementation("org.springframework.modulith:spring-modulith-starter-core")
     implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+
+    // 추가 Library
+    implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.9.0")
+    implementation("org.mapstruct:mapstruct:1.6.3")
+    implementation("io.swagger.core.v3:swagger-annotations-jakarta:2.2.27")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
@@ -47,6 +51,14 @@ dependencyManagement {
     imports {
         mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
     }
+}
+
+/**
+ * MapStruct Spring Bean 자동 등록 설정
+ * 해당 속성은 컴파일 시 MapStruct가 생성한 구현체를 Spring Bean으로 등록하기 위한 설정이다. (따라서 yml 같은 곳에 설정 불가)
+ */
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
 }
 
 flyway {
