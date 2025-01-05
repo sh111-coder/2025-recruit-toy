@@ -1,0 +1,27 @@
+---
+# Docs: https://docs.docker.com/compose/compose-file/
+
+name: "2025-toy-recruit"
+
+services:
+  pgsql:
+    image: docker.io/library/postgres:15.5
+    restart: on-failure
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: seongha123
+      TZ: 'UTC'
+      PGTZ: 'UTC'
+    shm_size: 128mb
+    volumes:
+      - pgsql-data:/var/lib/postgresql/data
+      - type: bind
+        source: docs/localdb
+        target: /docker-entrypoint-initdb.d
+
+    ports:
+      - "127.0.0.1:5432:5432"
+
+volumes:
+  pgsql-data:

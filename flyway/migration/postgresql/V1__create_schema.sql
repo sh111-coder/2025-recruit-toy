@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS "member";
+COMMENT ON SCHEMA "member" IS '회원';
+
