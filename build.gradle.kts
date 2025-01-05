@@ -38,6 +38,7 @@ dependencies {
     implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.9.0")
     implementation("org.mapstruct:mapstruct:1.6.3")
     implementation("io.swagger.core.v3:swagger-annotations-jakarta:2.2.27")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
