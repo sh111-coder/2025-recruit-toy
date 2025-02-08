@@ -13,15 +13,11 @@ public interface JobPostingMapper {
     @Mapping(ignore = true, target = "id")
     @Mapping(ignore = true, target = "company")
     @Mapping(ignore = true, target = "postingStatus")
-    @Mapping(ignore = true, target = "createdAt")
-    @Mapping(ignore = true, target = "updatedAt")
     JobPosting toEntity(JobPostingPostReq req);
 
     @Mapping(ignore = true, target = "id")
     @Mapping(ignore = true, target = "company")
     @Mapping(ignore = true, target = "postingStatus")
-    @Mapping(ignore = true, target = "createdAt")
-    @Mapping(ignore = true, target = "updatedAt")
     JobPosting toEntity(JobPostingEditReq req);
 
     @Mapping(source = "company.id", target = "companyId")
