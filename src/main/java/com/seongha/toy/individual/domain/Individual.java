@@ -5,15 +5,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@NoArgsConstructor
 @Table(schema = "member", name = "individual")
 public class Individual {
 
@@ -23,11 +21,14 @@ public class Individual {
     private String id;
 
     @Column(name = "name")
+    @Setter
     private String name;
 
     @Column(name = "email")
+    @Setter
     private String email;
 
     @Column(name = "phone_number")
+    @Setter
     private String phoneNumber;
 }

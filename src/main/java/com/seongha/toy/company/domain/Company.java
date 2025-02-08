@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Entity
@@ -23,14 +24,18 @@ public class Company {
     private String id;
 
     @Column(name = "identification_number")
+    @Setter
     private String identificationNumber;
 
     @Column(name = "name")
+    @Setter
     private String name;
 
     @Column(name = "email")
+    @Setter
     private String email;
 
     @Column(name = "contact")
+    @Setter
     private String contact;
 }
