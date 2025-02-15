@@ -11,15 +11,14 @@ import org.mapstruct.Mapping;
 public interface JobPostingMapper {
 
     @Mapping(ignore = true, target = "id")
-    @Mapping(ignore = true, target = "company")
+    @Mapping(ignore = true, target = "companyId")
     @Mapping(ignore = true, target = "postingStatus")
     JobPosting toEntity(JobPostingPostReq req);
 
     @Mapping(ignore = true, target = "id")
-    @Mapping(ignore = true, target = "company")
+    @Mapping(ignore = true, target = "companyId")
     @Mapping(ignore = true, target = "postingStatus")
     JobPosting toEntity(JobPostingEditReq req);
 
-    @Mapping(source = "company.id", target = "companyId")
     JobPostingRes toRes(JobPosting entity);
 }

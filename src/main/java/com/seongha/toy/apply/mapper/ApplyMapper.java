@@ -10,11 +10,10 @@ import org.mapstruct.Mapping;
 public interface ApplyMapper {
 
     @Mapping(ignore = true, target = "id")
-    @Mapping(ignore = true, target = "jobPosting")
-    @Mapping(ignore = true, target = "applicant")
+    @Mapping(ignore = true, target = "jobPostingId")
+    @Mapping(ignore = true, target = "applicantId")
+    @Mapping(ignore = true, target = "applicationStatus")
     Apply toEntity(ApplyCreateReq req);
 
-    @Mapping(source = "jobPosting.id", target = "jobPostingId")
-    @Mapping(source = "applicant.id", target = "applicantId")
     ApplyRes toRes(Apply apply);
 }
