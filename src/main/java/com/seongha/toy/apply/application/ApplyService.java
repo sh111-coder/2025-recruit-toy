@@ -25,12 +25,25 @@ public class ApplyService {
 
     public void apply(ApplyCreateReq req) {
         var apply = applyMapper.toEntity(req);
-        var jobPosting = jobPostingRepository.findById(req.jobPostingId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 공고입니다."));
-        var applicant = individualRepository.findById(req.applicantId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 지원자입니다."));
+        var jobPostingId = req.jobPostingId();
+        var applicantId = req.applicantId();
+        validateExist(jobPostingId, applicantId);
 
-        apply.applyStart(jobPosting, applicant);
+        apply.applyStart(jobPostingId, applicantId);
 
         applyRepository.save(apply);
+    }
+
+    private void validateExist(String jobPostingId, String applicantId) {
+        var isExistJobPosting = jobPostingRepository.existsById(jobPostingId);
+        var isExistApplicant = individualRepository.existsById(applicantId);
+
+        if (!isExistJobPosting) {
+            throw new IllegalArgumentException("존재하지 않는 공고입니다.");
+        }
+        if (!isExistApplicant) {
+            throw new IllegalArgumentException("존재하지 않는 지원자입니다.");
+        }
     }
 
     public void changeStatus(ApplyChangeStatusReq req, String applyId) {

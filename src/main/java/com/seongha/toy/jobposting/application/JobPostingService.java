@@ -27,19 +27,27 @@ public class JobPostingService {
     @Transactional
     public IdResponse post(JobPostingPostReq req) {
         var jobPosting = jobPostingMapper.toEntity(req);
-        var company = companyRepository.findById(req.companyId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 기업입니다."));
+        var companyId = req.companyId();
+        validateExist(companyId);
 
-        jobPosting.postStart(company);
+        jobPosting.postStart(companyId);
         var savedJobPosting = jobPostingRepository.save(jobPosting);
 
         return new IdResponse(savedJobPosting.getId());
     }
 
+    private void validateExist(String companyId) {
+        var isExistCompany = companyRepository.existsById(companyId);
+
+        if (!isExistCompany) {
+            throw new IllegalArgumentException("존재하지 않는 기업입니다.");
+        }
+    }
+
     @Transactional
     public EmptyResponse edit(String id, JobPostingEditReq req) {
         var jobPosting = jobPostingRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 공고입니다."));
-        var company = companyRepository.findById(req.companyId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 기업입니다."));
-        jobPosting.validateOwner(company);
+        jobPosting.validateOwner(req.companyId());
 
         var jobPostingToEdit = jobPostingMapper.toEntity(req);
         jobPosting.edit(jobPostingToEdit);
@@ -50,8 +58,7 @@ public class JobPostingService {
     @Transactional
     public EmptyResponse changeStatus(String id, JobPostingChangeStatusReq req) {
         var jobPosting = jobPostingRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 공고입니다."));
-        var company = companyRepository.findById(req.companyId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 기업입니다."));
-        jobPosting.validateOwner(company);
+        jobPosting.validateOwner(req.companyId());
 
         jobPosting.changeStatus(req.postingStatus());
         return new EmptyResponse();

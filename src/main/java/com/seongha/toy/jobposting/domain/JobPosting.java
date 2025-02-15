@@ -1,7 +1,6 @@
 package com.seongha.toy.jobposting.domain;
 
 import com.seongha.toy.common.audit.BaseAuditEntity;
-import com.seongha.toy.company.domain.Company;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -9,10 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Objects;
 import lombok.AccessLevel;
@@ -33,9 +29,7 @@ public class JobPosting extends BaseAuditEntity {
     @Column(name = "id")
     private String id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    private Company company;
+    private String companyId;
 
     @Setter
     private String title;
@@ -55,8 +49,8 @@ public class JobPosting extends BaseAuditEntity {
     @Setter
     private PostingStatus postingStatus;
 
-    public void postStart(Company company) {
-        this.company = company;
+    public void postStart(String companyId) {
+        this.companyId = companyId;
         this.postingStatus = PostingStatus.OPEN;
     }
 
@@ -66,8 +60,8 @@ public class JobPosting extends BaseAuditEntity {
         this.postingPeriod = jobPostToEdit.postingPeriod;
     }
 
-    public void validateOwner(Company company) {
-        if (!Objects.equals(this.company.getId(), company.getId())) {
+    public void validateOwner(String companyId) {
+        if (!Objects.equals(this.companyId, companyId)) {
             throw new IllegalArgumentException("공고를 게재한 기업 회원이 아닙니다.");
         }
     }
